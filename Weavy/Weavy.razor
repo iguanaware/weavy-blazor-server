@@ -1,17 +1,24 @@
 ﻿@using BlazorApp.Weavy
 @inject WeavyJsInterop wvy
 
-<div @ref="weavyContainer" class="border rounded overflow-hidden" style="height: 300px;"></div>
+<button class="btn btn-primary my-3" @onclick="ToggleApp">Toggle me</button>
+
+<div @ref="weavyContainer" style="height: 300px;"></div>
 
 @code{
     ElementReference weavyContainer;
+    AppReference app;
 
     protected override async Task OnAfterRenderAsync(bool firstRender) {
         if (firstRender) {
             await wvy.Init();
-            var weavy = await wvy.Weavy();
-            var space = await wvy.Space(weavy, new { key = "my-blazer-space" });
-            var app = await wvy.App(space, new { key = "blazer-files", name = "Blazer Files", type = "files", container = weavyContainer });
+            var weavy = await wvy.Weavy(new { id = "blazor" });
+            var space = await weavy.Space(new { key = "my-blazor-space" });
+            app = await space.App(new { key = "blazor-files", name = "Blazor Files", type = "files", container = weavyContainer });
         }
+    }
+
+    private void ToggleApp() {
+        app?.Toggle();
     }
 }

@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 
 namespace BlazorApp.Weavy {
     public class WeavyJsInterop : IDisposable {
         private readonly IJSRuntime js;
-        private IJSObjectReference weavyBridge;
+        public IJSObjectReference bridge;
         private object defaultOptions;
 
         public WeavyJsInterop(IJSRuntime js) {
@@ -15,23 +14,50 @@ namespace BlazorApp.Weavy {
         }
 
         async public Task Init() {
-            weavyBridge = await js.InvokeAsync<IJSObjectReference>("import", "./weavyJsInterop.js");
+            bridge = await js.InvokeAsync<IJSObjectReference>("import", "./weavyJsInterop.js");
         }
 
-        async public ValueTask<IJSObjectReference> Weavy(object options = null) {
-            return await weavyBridge.InvokeAsync<IJSObjectReference>("weavy", new object[] { defaultOptions, options });
-        }
-    
-        async public ValueTask<IJSObjectReference> Space(IJSObjectReference weavy, object spaceSelector = null) {
-            return await weavy.InvokeAsync<IJSObjectReference>("space", new object[] { spaceSelector });
-        }
-
-        async public ValueTask<IJSObjectReference> App(IJSObjectReference space, object appSelector = null) {
-            return await space.InvokeAsync<IJSObjectReference>("app", new object[] { appSelector });
+        async public ValueTask<WeavyReference> Weavy(object options = null) {
+            var _weavy = await bridge.InvokeAsync<IJSObjectReference>("weavy", new object[] { defaultOptions, options });
+            return new WeavyReference(_weavy);
         }
 
         public void Dispose() {
-            weavyBridge?.DisposeAsync();
+            bridge?.DisposeAsync();
+        }
+    }
+
+    public class WeavyReference : ExtendableJSObjectReference {
+        public WeavyReference(IJSObjectReference weavy) : base(weavy) {}
+
+        async public ValueTask<SpaceReference> Space(object spaceSelector = null) {
+            var space = await objectReference.InvokeAsync<IJSObjectReference>("space", new object[] { spaceSelector });
+            return new SpaceReference(space);
+        }
+    }
+
+    public class SpaceReference : ExtendableJSObjectReference {
+        public SpaceReference(IJSObjectReference space) : base(space) { }
+
+        async public ValueTask<AppReference> App(object appSelector = null) {
+            var app = await objectReference.InvokeAsync<IJSObjectReference>("app", new object[] { appSelector });
+            return new AppReference(app);
+        }
+    }
+
+    public class AppReference : ExtendableJSObjectReference {
+        public AppReference(IJSObjectReference app) : base(app) { }
+
+        public ValueTask<IJSObjectReference> Open() {
+            return objectReference.InvokeAsync<IJSObjectReference>("open", new object[] { });
+        }
+        
+        public ValueTask<IJSObjectReference> Close() {
+            return objectReference.InvokeAsync<IJSObjectReference>("close", new object[] { });
+        }
+
+        public ValueTask<IJSObjectReference> Toggle() {
+            return objectReference.InvokeAsync<IJSObjectReference>("toggle", new object[] { });
         }
     }
 }
