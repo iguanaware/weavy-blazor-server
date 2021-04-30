@@ -22,6 +22,19 @@
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
             </NavLink>
         </li>
+
+        <li class="nav-item px-3 mt-auto">
+            <AuthorizeView>
+                <Authorized>
+                     <a class="nav-link" href="Identity/Account/LogOut"><span class="oi oi-account-logout" aria-hidden="true"></span> Log out</a>
+                </Authorized>
+                <NotAuthorized>
+                     <a  class="nav-link" href="Identity/Account/Login"><span class="oi oi-account-login" aria-hidden="true"></span> Log in</a>
+                </NotAuthorized>
+            </AuthorizeView>
+
+        </li>
+
     </ul>
 </div>
 

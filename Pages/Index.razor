@@ -7,12 +7,6 @@
         <h1>Hello !</h1>
         <p>You are logged in as <a href="Identity/Account/Manage">@context.User.Identity.Name</a>.</p>
 
-        @*<div class="mb-3">
-            <button type="button" class="btn btn-primary mb-3" @onclick="GetToken">Refresh JWT from Blazor</button><br />
-        </div>
-
-        <div class="card p-3"><code>@_jwt</code></div>*@
-
         <Weavy />
 
     </Authorized>
@@ -21,19 +15,3 @@
         <p>Please <a href="Identity/Account/Login">log in</a>.</p>
     </NotAuthorized>
 </AuthorizeView>
-
-@code {
-    //// TODO: init _jwt on load?
-    //private string _jwt;
-
-    //private async Task GetToken() {
-    //    _jwt = await TokenService.GetTokenAsync();
-    //}
-
-    //public async Task TriggerNetInstanceMethod() {
-    //    var exampleJsInterop = new ExampleJsInterop(JS);
-    //    await exampleJsInterop.CallInteropHelperGetJWT("Blazor!");
-    //}
-}
-
-
