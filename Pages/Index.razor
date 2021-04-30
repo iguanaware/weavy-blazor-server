@@ -1,6 +1,6 @@
 @page "/"
 @using BlazorApp.Weavy
-
+@inject TokenService TokenService
 
 <AuthorizeView>
     <Authorized>
@@ -9,7 +9,6 @@
 
         @*<div class="mb-3">
             <button type="button" class="btn btn-primary mb-3" @onclick="GetToken">Refresh JWT from Blazor</button><br />
-            <button type="button" class="btn btn-primary" @onclick="TriggerNetInstanceMethod">Refresh JWT via JS interop</button>
         </div>
 
         <div class="card p-3"><code>@_jwt</code></div>*@
@@ -23,5 +22,18 @@
     </NotAuthorized>
 </AuthorizeView>
 
+@code {
+    //// TODO: init _jwt on load?
+    //private string _jwt;
+
+    //private async Task GetToken() {
+    //    _jwt = await TokenService.GetTokenAsync();
+    //}
+
+    //public async Task TriggerNetInstanceMethod() {
+    //    var exampleJsInterop = new ExampleJsInterop(JS);
+    //    await exampleJsInterop.CallInteropHelperGetJWT("Blazor!");
+    //}
+}
 
 

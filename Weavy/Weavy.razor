@@ -1,17 +1,28 @@
 ﻿@using BlazorApp.Weavy
 @inject WeavyJsInterop wvy
+@inject TokenService TokenService
+
+<div class="border rounded mb-3 p-3"><code>@_jwt</code></div>
 
 <div @ref="weavyContainer" class="border rounded overflow-hidden" style="height: 300px;"></div>
 
 @code{
+
+    private string _jwt;
+
     ElementReference weavyContainer;
+
+    protected override async Task OnInitializedAsync() {
+        _jwt = await TokenService.GetTokenAsync();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender) {
         if (firstRender) {
             await wvy.Init();
-            var weavy = await wvy.Weavy();
-            var space = await wvy.Space(weavy, new { key = "my-blazer-space" });
-            var app = await wvy.App(space, new { key = "blazer-files", name = "Blazer Files", type = "files", container = weavyContainer });
+            var options = new { jwt = _jwt };
+            var weavy = await wvy.Weavy(options);
+            var space = await wvy.Space(weavy, new { key = "blazor-space" });
+            var app = await wvy.App(space, new { key = "blazor-files", name = "Blazor Files", type = "files", container = weavyContainer });
         }
     }
 }

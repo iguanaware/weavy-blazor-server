@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using BlazorApp.Data;
 using Microsoft.JSInterop;
 
 namespace BlazorApp.Weavy {
     public class WeavyJsInterop : IDisposable {
         private readonly IJSRuntime js;
         private IJSObjectReference weavyBridge;
-        private object defaultOptions;
 
-        public WeavyJsInterop(IJSRuntime js) {
+        public WeavyJsInterop(IJSRuntime js, TokenService tokenService) {
             this.js = js;
-            defaultOptions = new { jwt = "{insert jwt here}" };
         }
 
         async public Task Init() {
@@ -19,7 +18,7 @@ namespace BlazorApp.Weavy {
         }
 
         async public ValueTask<IJSObjectReference> Weavy(object options = null) {
-            return await weavyBridge.InvokeAsync<IJSObjectReference>("weavy", new object[] { defaultOptions, options });
+            return await weavyBridge.InvokeAsync<IJSObjectReference>("weavy", new object[] { options });
         }
     
         async public ValueTask<IJSObjectReference> Space(IJSObjectReference weavy, object spaceSelector = null) {
