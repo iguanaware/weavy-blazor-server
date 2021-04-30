@@ -1,10 +1,27 @@
 @page "/"
 @using BlazorApp.Weavy
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
+<AuthorizeView>
+    <Authorized>
+        <h1>Hello !</h1>
+        <p>You are logged in as <a href="Identity/Account/Manage">@context.User.Identity.Name</a>.</p>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+        @*<div class="mb-3">
+            <button type="button" class="btn btn-primary mb-3" @onclick="GetToken">Refresh JWT from Blazor</button><br />
+            <button type="button" class="btn btn-primary" @onclick="TriggerNetInstanceMethod">Refresh JWT via JS interop</button>
+        </div>
 
-<Weavy />
+        <div class="card p-3"><code>@_jwt</code></div>*@
+
+        <Weavy />
+
+    </Authorized>
+    <NotAuthorized>
+        <h1>Hello!</h1>
+        <p>Please <a href="Identity/Account/Login">log in</a>.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+
