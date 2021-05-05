@@ -6,7 +6,7 @@ namespace BlazorApp.Weavy {
     public class ExtendableJSObjectReference : IJSObjectReference {
         public IJSObjectReference objectReference;
 
-        public ExtendableJSObjectReference(IJSObjectReference reference) {
+        public ExtendableJSObjectReference(IJSObjectReference reference = null) {
             objectReference = reference;
         }
 

@@ -7,7 +7,10 @@
         <h1>Hello !</h1>
         <p>You are logged in as <a href="Identity/Account/Manage">@context.User.Identity.Name</a>.</p>
 
-        <Weavy />
+        <Weavy id="blazor">
+            <WeavyApp SpaceKey="blazor-space" key="blazor-posts" type="posts" name="Blazor Posts" controls=true />
+            <WeavyApp SpaceKey="blazor-space" key="blazor-files" type="files" name="Blazor Files" />
+        </Weavy>
 
     </Authorized>
     <NotAuthorized>

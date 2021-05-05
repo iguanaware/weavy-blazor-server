@@ -1,33 +1,25 @@
 ﻿@using BlazorApp.Weavy
+@implements IDisposable
 @inject WeavyJsInterop wvy
-@inject TokenService TokenService
 
-<div class="border rounded mb-3 p-3"><code>@_jwt</code></div>
-<button class="btn btn-primary my-3" @onclick="ToggleApp">Toggle me</button>
+<CascadingValue Value="weavy">
+    @ChildContent
+</CascadingValue>
 
-<div @ref="weavyContainer" style="height: 300px;"></div>
+@code{ 
+    WeavyReference weavy;
 
-@code{
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
 
-    private string _jwt;
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object> Options { get; set; }
 
-    ElementReference weavyContainer;
-    AppReference app;
-
-    protected override async Task OnInitializedAsync() {
-        _jwt = await TokenService.GetTokenAsync();
+    protected override void OnInitialized() {
+        weavy = new(wvy, Options);
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender) {
-        if (firstRender) {
-            await wvy.Init();
-            var weavy = await wvy.Weavy(new { jwt = _jwt, id = "blazor" });
-            var space = await weavy.Space(new { key = "blazor-space" });
-            app = await space.App(new { key = "blazor-files", name = "Blazor Files", type = "files", container = weavyContainer });
-        }
-    }
-
-    private void ToggleApp() {
-        app?.Toggle();
+    public void Dispose() {
+        weavy?.Destroy();
     }
 }
