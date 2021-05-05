@@ -7,9 +7,12 @@
         <h1>Hello !</h1>
         <p>You are logged in as <a href="Identity/Account/Manage">@context.User.Identity.Name</a>.</p>
 
-        <Weavy id="blazor">
+        <button @onclick="@(e => { FilesKey = "blazor-files-2019"; FilesName = "Blazor Files 2019"; })">2019</button>
+        <button @onclick="@(e => { FilesKey = "blazor-files-2020"; FilesName = "Blazor Files 2020"; })">2020</button>
+
+        <Weavy>
             <WeavyApp SpaceKey="blazor-space" key="blazor-posts" type="posts" name="Blazor Posts" controls=true />
-            <WeavyApp SpaceKey="blazor-space" key="blazor-files" type="files" name="Blazor Files" />
+            <WeavyApp SpaceKey="blazor-space" type="files" @key="FilesKey" key="@FilesKey" name="@FilesName" />
         </Weavy>
 
     </Authorized>
@@ -18,3 +21,8 @@
         <p>Please <a href="Identity/Account/Login">log in</a>.</p>
     </NotAuthorized>
 </AuthorizeView>
+
+@code {
+    private string FilesKey { get; set; } = "blazor-files";
+    private string FilesName { get; set; } = "Blazor Files";
+}
