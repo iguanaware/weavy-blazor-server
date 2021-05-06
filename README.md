@@ -1,9 +1,8 @@
-# weavy-blazor-app
-Weavy component sample for Blazor
+# weavy-blazor-server
+A demo project showcasing the Weavy Drop-In UI wrapped in a Blazor component.
 
 # Usage
- - Point weavy.js to your weavy server in Pages/_Host
- - Configure JWT in Weavy/WeavyJsInterop.cs
+ - Update url to your Weavy server in appsettings.json
  
 ```
 dotnet watch run
