@@ -12,7 +12,7 @@ namespace WeavyBlazorServer.Controllers {
     public class AuthenticationController : Controller {
 
         /// <summary>
-        /// JWT tokens with a ridiculous long expiration. The tokens are used to authenticate to the publicly available demo instance of Weavy.
+        /// JWT tokens with a ridiculous long expiration. The tokens are used to authenticate to the demo instance of Weavy on https//showcase.weavycloud.com.
         /// </summary>
         private Dictionary<string, string> _demoTokens = new Dictionary<string, string> {
             {"oliver", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJvbGl2ZXIiLCJuYW1lIjoiT2xpdmVyIFdpbnRlciIsImV4cCI6MjUxNjIzOTAyMiwiaXNzIjoic3RhdGljLWZvci1kZW1vIiwiY2xpZW50X2lkIjoiV2VhdnlEZW1vIiwiZGlyIjoiY2hhdC1kZW1vLWRpciIsImVtYWlsIjoib2xpdmVyLndpbnRlckBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoib2xpdmVyIn0.VuF_YzdhzSr5-tordh0QZbLmkrkL6GYkWfMtUqdQ9FM" },

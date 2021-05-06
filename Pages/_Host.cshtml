@@ -1,6 +1,8 @@
 ﻿@page "/"
+@using Microsoft.Extensions.Configuration
 @namespace WeavyBlazorServer.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject IConfiguration config
 @{
     Layout = null;
 }
@@ -17,7 +19,7 @@
     <link href="WeavyBlazorServer.styles.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://showcase.weavycloud.com/javascript/weavy.js"></script>
+    <script src="@(config.GetValue<string>("Weavy"))/javascript/weavy.js"></script>
 </head>
 <body>
     <component type="typeof(App)" render-mode="ServerPrerendered" />
