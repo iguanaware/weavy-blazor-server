@@ -1,24 +1,31 @@
-@page "/"
-@using BlazorApp.Weavy
-@inject TokenService TokenService
+﻿@page "/"
+@using WeavyBlazorServer.Weavy
+
 
 <AuthorizeView>
     <Authorized>
-        <h1>Hello !</h1>
-        <p>You are logged in as <a href="Identity/Account/Manage">@context.User.Identity.Name</a>.</p>
+        <div class="container-fluid my-2">
+            <h1>Hello @context.User.Identity.Name!</h1>
+            <p>Click a button to load another weavy files app on demand.</p>
 
-        <button @onclick="@(e => { FilesKey = "blazor-files-2019"; FilesName = "Blazor Files 2019"; })">2019</button>
-        <button @onclick="@(e => { FilesKey = "blazor-files-2020"; FilesName = "Blazor Files 2020"; })">2020</button>
+            <button class="btn btn-secondary" @onclick="@(e => { FilesKey = "blazor-files-2019"; FilesName = "Blazor Files 2019"; })">2019</button>
+            <button class="btn btn-secondary" @onclick="@(e => { FilesKey = "blazor-files-2020"; FilesName = "Blazor Files 2020"; })">2020</button>
 
-        <Weavy>
-            <WeavyApp SpaceKey="blazor-space" key="blazor-posts" type="posts" name="Blazor Posts" controls=true />
-            <WeavyApp SpaceKey="blazor-space" type="files" @key="FilesKey" key="@FilesKey" name="@FilesName" />
-        </Weavy>
-
+            <Weavy>
+                <WeavyApp SpaceKey="weavy-blazor" key="blazor-posts" type="posts" name="Blazor Posts" controls=true />
+                <WeavyApp SpaceKey="weavy-blazor" type="files" @key="FilesKey" key="@FilesKey" name="@FilesName" />
+            </Weavy>
+        </div>
     </Authorized>
     <NotAuthorized>
-        <h1>Hello!</h1>
-        <p>Please <a href="Identity/Account/Login">log in</a>.</p>
+        <div class="container text-center my-5">
+            <h1>Weavy ❤ Blazor</h1>
+            <div class="mb-3">Please click one of the buttons below to login.</div>
+            <NavLink class="btn btn-primary" href="login?username=oliver">Oliver</NavLink>
+            <NavLink class="btn btn-success" href="login?username=lilly">Lilly</NavLink>
+            <NavLink class="btn btn-info" href="login?username=adam">Adam</NavLink>
+            <NavLink class="btn btn-warning" href="login?username=samara">Samara</NavLink>
+        </div>
     </NotAuthorized>
 </AuthorizeView>
 

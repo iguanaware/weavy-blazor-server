@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BlazorApp.Weavy {
+namespace WeavyBlazorServer.Weavy {
     public class ExtendableJSObjectReference : IJSObjectReference {
         public IJSObjectReference objectReference;
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.JSInterop;
 using System.Threading.Tasks;
 
-namespace BlazorApp.Weavy {
+namespace WeavyBlazorServer.Weavy {
     public class WeavyReference : ExtendableJSObjectReference {
         private bool initialized = false;
         public WeavyJsInterop wvy;
@@ -14,7 +14,7 @@ namespace BlazorApp.Weavy {
         }
 
         public async Task Init() {
-            if(!initialized) {
+            if (!initialized) {
                 initialized = true;
                 WhenWeavy = wvy.Weavy(options);
                 objectReference = await WhenWeavy;

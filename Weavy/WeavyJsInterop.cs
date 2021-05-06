@@ -1,40 +1,40 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.JSInterop;
 
-namespace BlazorApp.Weavy {
+namespace WeavyBlazorServer.Weavy {
     public class WeavyJsInterop : IDisposable {
-        private bool initialized = false;
-        private readonly IJSRuntime js;
-        public IJSObjectReference bridge;
-        private ValueTask<IJSObjectReference> WhenImport;
+        private bool initialized;
+        private readonly IJSRuntime _js;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public IJSObjectReference _bridge;
+        private ValueTask<IJSObjectReference> _whenImport;
 
-        public WeavyJsInterop(IJSRuntime js) {
-            this.js = js;
+        public WeavyJsInterop(IJSRuntime js, IHttpContextAccessor httpContextAccessor) {
+            _js = js;
+            _httpContextAccessor = httpContextAccessor;
+
         }
-
         public async Task Init() {
             if (!initialized) {
-                WhenImport = js.InvokeAsync<IJSObjectReference>("import", "./weavyJsInterop.js");
-                bridge = await WhenImport;
+                _whenImport = _js.InvokeAsync<IJSObjectReference>("import", "./weavyJsInterop.js");
+                _bridge = await _whenImport;
+                initialized = true;
             } else {
-                await WhenImport;
+                await _whenImport;
             }
         }
 
         public async ValueTask<IJSObjectReference> Weavy(object options = null) {
             await Init();
-            return await bridge.InvokeAsync<IJSObjectReference>("weavy", new object[] { options });
-        }
-
-        [JSInvokable]
-        public static string GetJwt () {
-            var jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzYW1hcmEiLCJuYW1lIjoiU2FtYXJhIEthdXIiLCJleHAiOjI1MTYyMzkwMjIsImlzcyI6InN0YXRpYy1mb3ItZGVtbyIsImNsaWVudF9pZCI6IldlYXZ5RGVtbyIsImRpciI6ImNoYXQtZGVtby1kaXIiLCJlbWFpbCI6InNhbWFyYS5rYXVyQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJzYW1hcmEifQ.UKLmVTsyN779VY9JLTLvpVDLc32Coem_0evAkzG47kM";
-            return jwt;
+            // get jwt from current user claims
+            var jwt = new { jwt = _httpContextAccessor?.HttpContext?.User?.FindFirst("jwt")?.Value };
+            return await _bridge.InvokeAsync<IJSObjectReference>("weavy", new object[] { jwt, options });
         }
 
         public void Dispose() {
-            bridge?.DisposeAsync();
+            _bridge?.DisposeAsync();
         }
     }
 }
