@@ -1,20 +1,10 @@
 ﻿@page "/"
-@using WeavyBlazorServer.Weavy
-
 
 <AuthorizeView>
     <Authorized>
         <div class="container-fluid my-2">
-            <h1>Hello @context.User.Identity.Name!</h1>
-            <p>Click a button to load another weavy files app on demand.</p>
-
-            <button class="btn btn-secondary" @onclick="@(e => { FilesKey = "blazor-files-2019"; FilesName = "Blazor Files 2019"; })">2019</button>
-            <button class="btn btn-secondary" @onclick="@(e => { FilesKey = "blazor-files-2020"; FilesName = "Blazor Files 2020"; })">2020</button>
-
-            <Weavy>
-                <WeavyApp SpaceKey="weavy-blazor" key="blazor-posts" type="posts" name="Blazor Posts" controls=true />
-                <WeavyApp SpaceKey="weavy-blazor" type="files" @key="FilesKey" key="@FilesKey" name="@FilesName" />
-            </Weavy>
+            <h1>Hello <span style="text-transform: capitalize;">@context.User.Identity.Name</span>!</h1>
+            <p>Select Posts or Files in the navigation menu to see Weavy in action.</p>
         </div>
     </Authorized>
     <NotAuthorized>
@@ -28,8 +18,3 @@
         </div>
     </NotAuthorized>
 </AuthorizeView>
-
-@code {
-    private string FilesKey { get; set; } = "blazor-files";
-    private string FilesName { get; set; } = "Blazor Files";
-}
