@@ -1,4 +1,5 @@
 # weavy-blazor-server
+![Weavy + Blazor](https://repository-images.githubusercontent.com/362755894/dc77cc80-ba2f-11eb-8930-01216b378b2a)
 A demo project showcasing the Weavy Drop-In UI wrapped in a Blazor component.
 
 ```
