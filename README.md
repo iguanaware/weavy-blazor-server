@@ -8,4 +8,4 @@ dotnet watch run
 
 *If you want to use your own instance of Weavy you can update the Weavy url in appsettings.json.*
  
-[Learn how to get started with Weavy Server SDK](https://docs.weavy.com/server/get-started)
+[Learn how to get started with Weavy Server SDK](https://www.weavy.com/docs/server/setup?chapter=blazor&topic=chat&menuid=54411598387)
